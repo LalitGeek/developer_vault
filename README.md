@@ -25,7 +25,7 @@ A professional, AI-powered desktop application for developers to store, manage, 
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/command-vault.git
+   git clone https://github.com/LalitGeek/command-vault.git
    cd command-vault
    ```
 
