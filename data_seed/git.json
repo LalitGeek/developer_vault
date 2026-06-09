@@ -1,0 +1,266 @@
+[
+  {
+    "category": "Git",
+    "title": "Initialize Repository",
+    "command": "git init",
+    "description": "Create a new Git repository in the current directory.",
+    "usage": "git init",
+    "tags": "git, init, repository"
+  },
+  {
+    "category": "Git",
+    "title": "Clone Repository",
+    "command": "git clone https://github.com/user/repo.git",
+    "description": "Clone a remote repository to your local machine.",
+    "usage": "git clone <repository-url>",
+    "tags": "git, clone, repository"
+  },
+  {
+    "category": "Git",
+    "title": "Check Status",
+    "command": "git status",
+    "description": "Display the state of the working directory and staging area.",
+    "usage": "git status",
+    "tags": "git, status, cli"
+  },
+  {
+    "category": "Git",
+    "title": "Add File",
+    "command": "git add file.txt",
+    "description": "Add a specific file to the staging area.",
+    "usage": "git add <filename>",
+    "tags": "git, add, staging"
+  },
+  {
+    "category": "Git",
+    "title": "Add All Changes",
+    "command": "git add .",
+    "description": "Stage all modified and new files.",
+    "usage": "git add .",
+    "tags": "git, add, staging, all"
+  },
+  {
+    "category": "Git",
+    "title": "Commit Changes",
+    "command": "git commit -m \"Initial commit\"",
+    "description": "Commit staged changes with a message.",
+    "usage": "git commit -m \"message\"",
+    "tags": "git, commit"
+  },
+  {
+    "category": "Git",
+    "title": "View Commit History",
+    "command": "git log",
+    "description": "Display commit history.",
+    "usage": "git log",
+    "tags": "git, log, history"
+  },
+  {
+    "category": "Git",
+    "title": "One Line Log",
+    "command": "git log --oneline",
+    "description": "Show compact commit history.",
+    "usage": "git log --oneline",
+    "tags": "git, log, history"
+  },
+  {
+    "category": "Git",
+    "title": "Create Branch",
+    "command": "git branch feature-auth",
+    "description": "Create a new branch.",
+    "usage": "git branch <branch-name>",
+    "tags": "git, branch"
+  },
+  {
+    "category": "Git",
+    "title": "List Branches",
+    "command": "git branch",
+    "description": "Show all local branches.",
+    "usage": "git branch",
+    "tags": "git, branch"
+  },
+  {
+    "category": "Git",
+    "title": "Switch Branch",
+    "command": "git checkout feature-auth",
+    "description": "Switch to another branch.",
+    "usage": "git checkout <branch-name>",
+    "tags": "git, checkout"
+  },
+  {
+    "category": "Git",
+    "title": "Create and Switch Branch",
+    "command": "git checkout -b feature-auth",
+    "description": "Create and switch to a new branch.",
+    "usage": "git checkout -b <branch-name>",
+    "tags": "git, checkout, branch"
+  },
+  {
+    "category": "Git",
+    "title": "Switch Branch (Modern)",
+    "command": "git switch feature-auth",
+    "description": "Switch to an existing branch.",
+    "usage": "git switch <branch-name>",
+    "tags": "git, switch"
+  },
+  {
+    "category": "Git",
+    "title": "Merge Branch",
+    "command": "git merge feature-auth",
+    "description": "Merge a branch into the current branch.",
+    "usage": "git merge <branch-name>",
+    "tags": "git, merge"
+  },
+  {
+    "category": "Git",
+    "title": "Delete Branch",
+    "command": "git branch -d feature-auth",
+    "description": "Delete a local branch.",
+    "usage": "git branch -d <branch-name>",
+    "tags": "git, branch, delete"
+  },
+  {
+    "category": "Git",
+    "title": "Add Remote",
+    "command": "git remote add origin https://github.com/user/repo.git",
+    "description": "Connect a local repository to a remote repository.",
+    "usage": "git remote add origin <url>",
+    "tags": "git, remote"
+  },
+  {
+    "category": "Git",
+    "title": "View Remotes",
+    "command": "git remote -v",
+    "description": "Show configured remote repositories.",
+    "usage": "git remote -v",
+    "tags": "git, remote"
+  },
+  {
+    "category": "Git",
+    "title": "Push Branch",
+    "command": "git push origin main",
+    "description": "Push local commits to remote repository.",
+    "usage": "git push origin <branch>",
+    "tags": "git, push"
+  },
+  {
+    "category": "Git",
+    "title": "Pull Changes",
+    "command": "git pull origin main",
+    "description": "Fetch and merge changes from remote repository.",
+    "usage": "git pull origin <branch>",
+    "tags": "git, pull"
+  },
+  {
+    "category": "Git",
+    "title": "Fetch Changes",
+    "command": "git fetch",
+    "description": "Download objects and refs from remote repository.",
+    "usage": "git fetch",
+    "tags": "git, fetch"
+  },
+  {
+    "category": "Git",
+    "title": "Show Differences",
+    "command": "git diff",
+    "description": "Display file changes not yet staged.",
+    "usage": "git diff",
+    "tags": "git, diff"
+  },
+  {
+    "category": "Git",
+    "title": "View Staged Differences",
+    "command": "git diff --staged",
+    "description": "Show staged changes before commit.",
+    "usage": "git diff --staged",
+    "tags": "git, diff, staged"
+  },
+  {
+    "category": "Git",
+    "title": "Undo Last Commit",
+    "command": "git reset --soft HEAD~1",
+    "description": "Undo the last commit while keeping changes staged.",
+    "usage": "git reset --soft HEAD~1",
+    "tags": "git, reset, undo"
+  },
+  {
+    "category": "Git",
+    "title": "Discard Changes",
+    "command": "git restore file.txt",
+    "description": "Discard changes made to a file.",
+    "usage": "git restore <file>",
+    "tags": "git, restore"
+  },
+  {
+    "category": "Git",
+    "title": "Restore Staged File",
+    "command": "git restore --staged file.txt",
+    "description": "Unstage a file while keeping modifications.",
+    "usage": "git restore --staged <file>",
+    "tags": "git, restore, staged"
+  },
+  {
+    "category": "Git",
+    "title": "Stash Changes",
+    "command": "git stash",
+    "description": "Temporarily save uncommitted changes.",
+    "usage": "git stash",
+    "tags": "git, stash"
+  },
+  {
+    "category": "Git",
+    "title": "Apply Stash",
+    "command": "git stash apply",
+    "description": "Apply the most recent stash.",
+    "usage": "git stash apply",
+    "tags": "git, stash"
+  },
+  {
+    "category": "Git",
+    "title": "List Stashes",
+    "command": "git stash list",
+    "description": "Show all saved stashes.",
+    "usage": "git stash list",
+    "tags": "git, stash"
+  },
+  {
+    "category": "Git",
+    "title": "Cherry Pick Commit",
+    "command": "git cherry-pick abc123",
+    "description": "Apply a specific commit from another branch.",
+    "usage": "git cherry-pick <commit-hash>",
+    "tags": "git, cherry-pick"
+  },
+  {
+    "category": "Git",
+    "title": "Interactive Rebase",
+    "command": "git rebase -i HEAD~5",
+    "description": "Rewrite and clean up commit history.",
+    "usage": "git rebase -i HEAD~N",
+    "tags": "git, rebase, advanced"
+  },
+  {
+    "category": "Git",
+    "title": "Show Reflog",
+    "command": "git reflog",
+    "description": "View reference log and recover lost commits.",
+    "usage": "git reflog",
+    "tags": "git, reflog, recovery"
+  },
+  {
+    "category": "Git",
+    "title": "Search Commit",
+    "command": "git log --grep=\"bug fix\"",
+    "description": "Search commit messages.",
+    "usage": "git log --grep=\"keyword\"",
+    "tags": "git, search, log"
+  },
+  {
+    "category": "Git",
+    "title": "Clean Untracked Files",
+    "command": "git clean -fd",
+    "description": "Remove untracked files and directories.",
+    "usage": "git clean -fd",
+    "tags": "git, clean, advanced"
+  }
+]

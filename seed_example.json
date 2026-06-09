@@ -1,0 +1,18 @@
+[
+    {
+        "category": "Git",
+        "title": "Example Command",
+        "command": "git status",
+        "description": "Show the working tree status.",
+        "usage": "Run this to see changed files.",
+        "tags": "git, status, cli"
+    },
+    {
+        "category": "Docker",
+        "title": "List All",
+        "command": "docker ps -a",
+        "description": "List all containers.",
+        "usage": "docker ps -a",
+        "tags": "docker, containers"
+    }
+]

@@ -1,67 +1,76 @@
-# Google Maps Bulk Scraper (GUI)
+# 🛡️ Developer Command Vault v2
 
-A powerful, user-friendly GUI-based tool to scrape business information from Google Maps. This tool extracts names, addresses, phone numbers, and websites, and allows you to export the data directly to a CSV file.
+A professional, AI-powered desktop application for developers to store, manage, and share their most-used commands and snippets. Built with Python and Tkinter, featuring a modern hierarchical organization, interactive AI assistance, and high-quality document generation.
 
-## Features
+## ✨ Key Features
 
-- **Search Query:** Search for any business type or location (e.g., "Hospitals in Mumbai", "Cafes in London").
-- **Max Results:** Set a limit on the number of results to fetch.
-- **Headless Mode:** Run the scraper in the background without opening a browser window.
-- **Real-time Updates:** View results in a table as they are being scraped.
-- **CSV Export:** Save your collected data easily for further analysis.
-- **Automatic Driver Management:** Uses `webdriver-manager` to automatically handle Chrome driver installation and updates.
+- **📂 Modern Hierarchy:** Organise commands into unlimited nested categories and subcategories.
+- **🖱️ Drag & Drop:** Effortlessly restructure your vault by dragging categories to move them between root and subcategory positions.
+- **🤖 Multi-Provider AI:** Integrated chat supporting Google Gemini, OpenAI, Groq, Mistral, and Local Ollama. Save AI-generated solutions directly to your vault.
+- **📄 Professional PDF Export:** Generate beautiful, modern reports with syntax-styled code blocks, perfect internal alignment, and consistent margins.
+- **📱 WhatsApp Integration:** Save your WhatsApp number and share command previews with a single click.
+- **⚙️ Data Management:** A unified, perfectly aligned interface for importing and exporting JSON, CSV, Text, and PDF data.
+- **🌱 Smart Import:** Support for hierarchical JSON imports using the `Parent > Child` syntax.
+- **🖱️ Smooth Navigation:** Full mouse wheel support for categories, command lists, and AI chat.
+- **🔒 API Locker:** Secure local management of AI provider keys and custom connection URLs.
 
-## Prerequisites
+## 🚀 Getting Started
 
-- **Python 3.x** installed on your system.
-- **Google Chrome** browser installed.
+### Prerequisites
 
-## Installation
+- Python 3.8 or higher
+- (Linux users) `python3-tk` package for the graphical interface.
 
-1. **Clone the repository** (or download the script):
+### Installation
+
+1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-username/gmaps-scraper.git
-   cd gmaps-scraper
+   git clone https://github.com/yourusername/command-vault.git
+   cd command-vault
    ```
 
-2. **Install the required dependencies**:
+2. **Install dependencies:**
    ```bash
    pip install -r requirements.txt
    ```
-   *Note: On Linux, you might also need to install the tkinter package if not already present:*
+
+3. **Run the application:**
    ```bash
-   sudo apt-get install python3-tk
+   python command_vault.py
    ```
 
-## Usage
+## 📖 Advanced Usage
 
-1. **Run the script**:
-   ```bash
-   python gmaps_scraper_gui.py
-   ```
+### Category Management
+- **Add:** Use the sidebar **+ Add** button to create root or subcategories.
+- **Rename:** Open any category and click **✏️ Rename** in the header.
+- **Reorganize:** Simply drag and drop categories in the sidebar. The system prevents invalid moves (like moving a parent into its own child).
+- **Clear:** Use **🗑️ All** to permanently wipe the vault and reset it to a blank slate.
 
-2. **Configure your search**:
-   - Enter your **Search Query** in the input field.
-   - Specify the **Max Results** you want to collect.
-   - (Optional) Toggle **Headless Mode** if you don't want to see the browser window.
+### Intelligent Imports
+Use the **⚙️ Data Management** tab or the **📥 Import JSON** button to seed your vault. To import hierarchies, use the `>` separator:
+```json
+{
+  "category": "Backend > Python > Django",
+  "title": "Run Server",
+  "command": "python manage.py runserver"
+}
+```
 
-3. **Start Scraping**:
-   - Click the **Start Scraping** button.
-   - The status bar will show the current progress, and the table will populate with results.
+### Beautiful Exports
+Export from the **Data Management** tab for bulk tasks, or use the **📄 PDF** and **📋 JSON** buttons inside any category for targeted exports. The PDF engine uses modern styling with `reportlab` to ensure a clean, professional look.
 
-4. **Export Data**:
-   - Once the scraping is complete (or stopped), click **Export to CSV** to save the results.
+## 🛠️ Built With
 
-## Troubleshooting
+- **Python** - Application Core
+- **Tkinter** - GUI Framework
+- **SQLite3** - Persistent Local Storage
+- **ReportLab** - Modern PDF Generation Engine
+- **Requests** - AI API Communication
 
-- **No Search Box Found:** If the script fails to find the search box, it will save an `error_screenshot.png`. Check this image to see what Google Maps was displaying (e.g., a captcha or a new layout).
-- **Log Files:** Check `scraper_error.log` if the application encounters a fatal error.
-- **Chrome Version:** Ensure your Google Chrome is up to date.
-
-## Disclaimer
-
-This tool is for educational purposes only. Scraping Google Maps may violate their Terms of Service. Use responsibly and at your own risk.
-
-## Author
+## 👤 Author
 
 **LalitGeek**
+
+---
+*Empowering developers to build their own private, high-performance command repository.*

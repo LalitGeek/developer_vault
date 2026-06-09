@@ -1,0 +1,162 @@
+[
+  {
+    "category": "Ollama",
+    "title": "Install Ollama",
+    "command": "curl -fsSL https://ollama.com/install.sh | sh",
+    "description": "Install Ollama on Linux using the official installation script.",
+    "usage": "Run this command in the terminal to install Ollama.",
+    "tags": "ollama, install, linux, setup"
+  },
+  {
+    "category": "Ollama",
+    "title": "Check Version",
+    "command": "ollama --version",
+    "description": "Display the installed Ollama version.",
+    "usage": "Verify that Ollama is installed correctly.",
+    "tags": "ollama, version, verify"
+  },
+  {
+    "category": "Ollama",
+    "title": "Start Server",
+    "command": "ollama serve",
+    "description": "Start the Ollama API server.",
+    "usage": "Run before making API requests.",
+    "tags": "ollama, server, api"
+  },
+  {
+    "category": "Ollama",
+    "title": "List Installed Models",
+    "command": "ollama list",
+    "description": "Display all downloaded models.",
+    "usage": "View locally available models.",
+    "tags": "ollama, models, list"
+  },
+  {
+    "category": "Ollama",
+    "title": "Show Running Models",
+    "command": "ollama ps",
+    "description": "List currently running models.",
+    "usage": "Check active model processes.",
+    "tags": "ollama, process, models"
+  },
+  {
+    "category": "Ollama",
+    "title": "Download Qwen3",
+    "command": "ollama pull qwen3",
+    "description": "Download the Qwen3 model.",
+    "usage": "Run once before using the model.",
+    "tags": "ollama, qwen3, model"
+  },
+  {
+    "category": "Ollama",
+    "title": "Download DeepSeek R1",
+    "command": "ollama pull deepseek-r1",
+    "description": "Download the DeepSeek-R1 reasoning model.",
+    "usage": "Install the model locally.",
+    "tags": "ollama, deepseek, ai"
+  },
+  {
+    "category": "Ollama",
+    "title": "Download Llama",
+    "command": "ollama pull llama3.3",
+    "description": "Download Meta's Llama model.",
+    "usage": "Pull model before running.",
+    "tags": "ollama, llama, ai"
+  },
+  {
+    "category": "Ollama",
+    "title": "Run Qwen3",
+    "command": "ollama run qwen3",
+    "description": "Start an interactive chat session with Qwen3.",
+    "usage": "Type prompts directly after launching.",
+    "tags": "ollama, qwen3, chat"
+  },
+  {
+    "category": "Ollama",
+    "title": "Run DeepSeek R1",
+    "command": "ollama run deepseek-r1",
+    "description": "Launch DeepSeek-R1 locally.",
+    "usage": "Use for reasoning and coding tasks.",
+    "tags": "ollama, deepseek, reasoning"
+  },
+  {
+    "category": "Ollama",
+    "title": "Run Llama",
+    "command": "ollama run llama3.3",
+    "description": "Start an interactive chat with Llama.",
+    "usage": "Use for general AI tasks.",
+    "tags": "ollama, llama, chatbot"
+  },
+  {
+    "category": "Ollama",
+    "title": "Remove Model",
+    "command": "ollama rm qwen3",
+    "description": "Delete a downloaded model.",
+    "usage": "Free up disk space.",
+    "tags": "ollama, remove, model"
+  },
+  {
+    "category": "Ollama",
+    "title": "Model Information",
+    "command": "ollama show qwen3",
+    "description": "Display model details and configuration.",
+    "usage": "Inspect model metadata.",
+    "tags": "ollama, model, info"
+  },
+  {
+    "category": "Ollama",
+    "title": "Generate Text via API",
+    "command": "curl http://localhost:11434/api/generate -d '{\"model\":\"qwen3\",\"prompt\":\"Explain Git\"}'",
+    "description": "Generate text using the Ollama API.",
+    "usage": "Send prompts programmatically.",
+    "tags": "ollama, api, generate"
+  },
+  {
+    "category": "Ollama",
+    "title": "Chat API",
+    "command": "curl http://localhost:11434/api/chat -d '{\"model\":\"qwen3\",\"messages\":[{\"role\":\"user\",\"content\":\"Hello\"}]}'",
+    "description": "Use the chat endpoint for conversational AI.",
+    "usage": "Integrate AI chat into applications.",
+    "tags": "ollama, api, chat"
+  },
+  {
+    "category": "Ollama",
+    "title": "Create Custom Model",
+    "command": "ollama create mymodel -f Modelfile",
+    "description": "Build a custom model from a Modelfile.",
+    "usage": "Customize prompts and system instructions.",
+    "tags": "ollama, custom, model"
+  },
+  {
+    "category": "Ollama",
+    "title": "Show Logs",
+    "command": "journalctl -u ollama -f",
+    "description": "View Ollama service logs in real time.",
+    "usage": "Troubleshoot server issues.",
+    "tags": "ollama, logs, debugging"
+  },
+  {
+    "category": "Ollama",
+    "title": "Run Model with Prompt",
+    "command": "ollama run qwen3 \"Explain Docker Compose\"",
+    "description": "Execute a single prompt from the command line.",
+    "usage": "Quick AI query without entering chat mode.",
+    "tags": "ollama, prompt, cli"
+  },
+  {
+    "category": "Ollama",
+    "title": "Pull Latest Model Updates",
+    "command": "ollama pull qwen3",
+    "description": "Update a model to the latest available version.",
+    "usage": "Refresh model files.",
+    "tags": "ollama, update, model"
+  },
+  {
+    "category": "Ollama",
+    "title": "List Available Models Online",
+    "command": "ollama search qwen",
+    "description": "Search for available models from the Ollama registry.",
+    "usage": "Find models to download.",
+    "tags": "ollama, search, registry"
+  }
+]
