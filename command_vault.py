@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import tkinter as tk
 from tkinter import ttk, messagebox, filedialog, simpledialog
 import sqlite3
@@ -1384,17 +1385,31 @@ class CommandVaultApp:
         
         # Input Box (Center-Left)
         self.wa_num_var = tk.StringVar(value=self.db.get_setting("whatsapp_number", ""))
-        wa_entry = tk.Entry(wa_frame, textvariable=self.wa_num_var, font=("Segoe UI", 11), width=28, borderwidth=1, relief="solid")
-        wa_entry.pack(side=tk.LEFT, padx=20)
+        wa_entry = tk.Entry(wa_frame, textvariable=self.wa_num_var, font=("Segoe UI", 11), borderwidth=1, relief="solid")
+        wa_entry.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=20)
         
-        def save_wa():
+        def save_wa(event=None):
             num = self.wa_num_var.get().strip()
             self.db.save_setting("whatsapp_number", num)
             messagebox.showinfo("Saved", "WhatsApp number saved!")
 
+        wa_entry.bind("<Return>", save_wa)
+
         # Buttons on the right
-        tk.Button(wa_frame, text="Share via WhatsApp", command=self.share_to_whatsapp, bg="#25D366", fg="white", relief="flat", padx=20, font=("Segoe UI", 10, "bold")).pack(side=tk.RIGHT)
-        tk.Button(wa_frame, text="Save Number", command=save_wa, bg="#3498db", fg="white", relief="flat", padx=15).pack(side=tk.RIGHT, padx=10)
+        share_btn = tk.Button(wa_frame, text="Share via WhatsApp", command=self.share_to_whatsapp, bg="#25D366", fg="white", relief="flat", padx=20, font=("Segoe UI", 10, "bold"))
+        share_btn.pack(side=tk.RIGHT)
+        
+        save_btn = tk.Button(wa_frame, text="Save Number", command=save_wa, bg="#3498db", fg="white", relief="flat", padx=15)
+        save_btn.pack(side=tk.RIGHT, padx=10)
+
+        # Hover Effects
+        def on_enter(btn, color): btn.config(bg=color)
+        def on_leave(btn, color): btn.config(bg=color)
+
+        share_btn.bind("<Enter>", lambda e: on_enter(share_btn, "#1eb954"))
+        share_btn.bind("<Leave>", lambda e: on_leave(share_btn, "#25D366"))
+        save_btn.bind("<Enter>", lambda e: on_enter(save_btn, "#2980b9"))
+        save_btn.bind("<Leave>", lambda e: on_leave(save_btn, "#3498db"))
 
     def import_categories_json(self):
         path = filedialog.askopenfilename(filetypes=[("JSON files", "*.json")])
