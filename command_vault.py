@@ -519,7 +519,7 @@ class CommandVaultApp:
             deferred = []
             for cid, name, pid in cats_to_process:
                 if pid is None:
-                    tid = self.cat_tree.insert("", "end", text=name, values=(cid,), open=True)
+                    tid = self.cat_tree.insert("", "end", text=name, values=(cid,))
                     tree_map[cid] = tid
                 elif pid in tree_map:
                     tid = self.cat_tree.insert(tree_map[pid], "end", text=name, values=(cid,))
@@ -583,9 +583,14 @@ class CommandVaultApp:
     def on_category_select(self, event):
         selection = self.cat_tree.selection()
         if not selection: return
-        item = self.cat_tree.item(selection[0])
+        item_id = selection[0]
+        item = self.cat_tree.item(item_id)
         cid = item['values'][0]
         name = item['text']
+        
+        # Expand the category on click
+        self.cat_tree.item(item_id, open=True)
+        
         self.show_commands(category_id=cid, category_name=name)
 
     def run_search(self):
