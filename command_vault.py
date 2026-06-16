@@ -1550,7 +1550,7 @@ class CommandVaultApp:
                     current_cat = cat
                     elements.append(Spacer(1, 10))
                     elements.append(Paragraph(f"📁 {cat.upper()}", cat_header_style))
-                    elements.append(HRFlowable(width="100%", thickness=1, color=colors.lightgrey, alignment=TA_LEFT, spaceAfter=20))
+                    elements.append(HRFlowable(width="100%", thickness=1, color=colors.lightgrey, hAlign=TA_LEFT, spaceAfter=20))
 
                 # Build Command "Card" using KeepTogether to prevent element collapse/splitting
                 cmd_elements = []
