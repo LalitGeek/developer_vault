@@ -359,13 +359,14 @@ class CommandVaultApp:
         self.ai_font_code = tkfont.Font(family="Consolas", size=10)
 
     def create_layout(self):
-        self.root.columnconfigure(1, weight=1)
-        self.root.rowconfigure(0, weight=1)
+        # Use PanedWindow for resizable sidebar
+        self.paned = tk.PanedWindow(self.root, orient=tk.HORIZONTAL, bg="#f5f7f9", sashwidth=4, sashrelief="flat")
+        self.paned.pack(fill=tk.BOTH, expand=True)
 
         # Left Sidebar
-        self.sidebar = ttk.Frame(self.root, style="Sidebar.TFrame", width=250)
-        self.sidebar.grid(row=0, column=0, sticky="nsew")
-        self.sidebar.grid_propagate(False)
+        self.sidebar = ttk.Frame(self.paned, style="Sidebar.TFrame", width=260)
+        self.paned.add(self.sidebar, minsize=200)
+        self.sidebar.pack_propagate(False)
 
         ttk.Label(self.sidebar, text="🛡️ VAULT", font=('Segoe UI', 18, 'bold'), foreground="white", background="#2c3e50").pack(pady=20)
         
@@ -387,23 +388,24 @@ class CommandVaultApp:
                            anchor="w", padx=15, pady=8)
             btn.pack(fill=tk.X, pady=2)
 
-        ttk.Label(self.sidebar, text="CATEGORIES (Drag to move)", font=('Segoe UI', 10, 'bold'), foreground="#95a5a6", background="#2c3e50").pack(pady=(20, 5), padx=15, anchor="w")
+        ttk.Label(self.sidebar, text="CATEGORIES", font=('Segoe UI', 10, 'bold'), foreground="#95a5a6", background="#2c3e50").pack(pady=(20, 5), padx=15, anchor="w")
         
-        # Category Buttons Frame
-        cat_btn_frame = ttk.Frame(self.sidebar, style="Sidebar.TFrame")
-        cat_btn_frame.pack(fill=tk.X, padx=15, pady=5)
-        
-        self.add_cat_btn = tk.Button(cat_btn_frame, text="+ Add", command=self.open_add_category_dialog, 
-                                    font=('Segoe UI', 9), bg="#1abc9c", fg="white", relief="flat", pady=5)
-        self.add_cat_btn.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=(0, 5))
-        
-        self.del_cat_btn = tk.Button(cat_btn_frame, text="- Delete Selected", command=self.delete_selected_categories, 
-                                    font=('Segoe UI', 9), bg="#e74c3c", fg="white", relief="flat", pady=5)
-        self.del_cat_btn.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=(0, 5))
+        # Category Buttons Frame (Responsive Grid)
+        self.cat_btn_frame = ttk.Frame(self.sidebar, style="Sidebar.TFrame")
+        self.cat_btn_frame.pack(fill=tk.X, padx=15, pady=5)
+        self.cat_btn_frame.columnconfigure((0, 1), weight=1)
 
-        self.clear_cats_btn = tk.Button(cat_btn_frame, text="🗑️ All", command=self.clear_all_categories, 
+        self.add_cat_btn = tk.Button(self.cat_btn_frame, text="+ Add", command=self.open_add_category_dialog, 
+                                    font=('Segoe UI', 9), bg="#1abc9c", fg="white", relief="flat", pady=5)
+        self.add_cat_btn.grid(row=0, column=0, sticky="nsew", padx=(0, 2), pady=2)
+        
+        self.del_cat_btn = tk.Button(self.cat_btn_frame, text="- Delete", command=self.delete_selected_categories, 
+                                    font=('Segoe UI', 9), bg="#e74c3c", fg="white", relief="flat", pady=5)
+        self.del_cat_btn.grid(row=0, column=1, sticky="nsew", padx=(2, 0), pady=2)
+
+        self.clear_cats_btn = tk.Button(self.cat_btn_frame, text="🗑️ Clear All Categories", command=self.clear_all_categories, 
                                        font=('Segoe UI', 9), bg="#c0392b", fg="white", relief="flat", pady=5)
-        self.clear_cats_btn.pack(side=tk.LEFT, fill=tk.X, expand=True)
+        self.clear_cats_btn.grid(row=1, column=0, columnspan=2, sticky="nsew", pady=2)
 
         # Categories Treeview (Hierarchy Support)
         cat_frame = ttk.Frame(self.sidebar, style="Sidebar.TFrame")
@@ -427,9 +429,30 @@ class CommandVaultApp:
         self.cat_tree.bind('<<TreeviewSelect>>', self.on_category_select)
         
         # Main Content Area
-        self.main_area = ttk.Frame(self.root, padding=30)
-        self.main_area.grid(row=0, column=1, sticky="nsew")
-        self.main_area.columnconfigure(0, weight=1)
+        self.main_container = ttk.Frame(self.paned, padding=0)
+        self.paned.add(self.main_container, stretch="always")
+        
+        # Add a scrollable canvas for the main area to handle overflow
+        self.main_canvas = tk.Canvas(self.main_container, bg="#f5f7f9", highlightthickness=0)
+        self.main_scrollbar = ttk.Scrollbar(self.main_container, orient="vertical", command=self.main_canvas.yview)
+        self.main_area = ttk.Frame(self.main_canvas, padding=30)
+        
+        self.main_area_window = self.main_canvas.create_window((0, 0), window=self.main_area, anchor="nw")
+        self.main_canvas.configure(yscrollcommand=self.main_scrollbar.set)
+        
+        self.main_canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        self.main_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        
+        self.main_area.bind("<Configure>", self._on_main_area_configure)
+        self.main_canvas.bind("<Configure>", self._on_main_canvas_configure)
+        self._bind_mousewheel(self.main_canvas)
+
+    def _on_main_area_configure(self, event):
+        self.main_canvas.configure(scrollregion=self.main_canvas.bbox("all"))
+
+    def _on_main_canvas_configure(self, event):
+        # Expand main_area to fill canvas width
+        self.main_canvas.itemconfig(self.main_area_window, width=event.width)
 
     def _bind_mousewheel(self, widget, orient="vertical"):
         """Bind mouse wheel events to a widget for cross-platform support."""
@@ -447,6 +470,9 @@ class CommandVaultApp:
     def clear_main(self):
         for widget in self.main_area.winfo_children():
             widget.destroy()
+        # Reset scroll position
+        self.main_canvas.yview_moveto(0)
+
 
     # --- Drag and Drop ---
     def on_tree_drag_start(self, event):
@@ -544,20 +570,20 @@ class CommandVaultApp:
         ttk.Label(header_box, text="Overview", style="Header.TLabel").pack(side=tk.LEFT)
         ttk.Button(header_box, text="+ New Command", command=self.open_add_dialog).pack(side=tk.RIGHT)
 
-        # Responsive Grid for Cards
-        cards_container = ttk.Frame(self.main_area)
-        cards_container.pack(fill=tk.X)
-        for i in range(3): cards_container.columnconfigure(i, weight=1)
+        # Responsive Grid for Stat Cards
+        self.cards_container = ttk.Frame(self.main_area)
+        self.cards_container.pack(fill=tk.X)
         
-        self.create_stat_card(cards_container, "Total Commands", stats['total'], "#3498db", 0)
-        self.create_stat_card(cards_container, "Categories", stats['categories'], "#e67e22", 1)
+        # Browse Categories Section (New & Responsive)
+        self.cat_header = ttk.Label(self.main_area, text="Browse Categories", font=("Segoe UI", 14, "bold"), background="#f5f7f9")
+        self.cat_header.pack(anchor="w", pady=(30, 15))
         
-        ai_list = ", ".join(active_ais) if active_ais else "None (Configure in Locker)"
-        self.create_stat_card(cards_container, "Active AI", ai_list, "#2ecc71", 2)
-        
+        self.cat_grid_container = ttk.Frame(self.main_area)
+        self.cat_grid_container.pack(fill=tk.X)
+
         # Quick Search
         search_frame = tk.Frame(self.main_area, bg="white", padx=15, pady=15, highlightbackground="#dcdde1", highlightthickness=1)
-        search_frame.pack(fill=tk.X, pady=30)
+        search_frame.pack(fill=tk.X, pady=40)
         
         tk.Label(search_frame, text="🔍 Quick Search", font=("Segoe UI", 12, "bold"), bg="white").pack(side=tk.LEFT)
         self.search_var = tk.StringVar()
@@ -566,13 +592,53 @@ class CommandVaultApp:
         entry.bind("<Return>", lambda e: self.run_search())
         tk.Button(search_frame, text="Search", command=self.run_search, bg="#1abc9c", fg="white", relief="flat", padx=15).pack(side=tk.RIGHT)
 
-    def create_stat_card(self, parent, title, val, color, col):
+        def refresh_grids(event=None):
+            if not hasattr(self, 'cards_container') or not self.cards_container.winfo_exists(): return
+            
+            # --- Refresh Stats Grid ---
+            width = self.cards_container.winfo_width()
+            if width < 100: return
+            
+            for widget in self.cards_container.winfo_children(): widget.grid_forget()
+            
+            s_cols = max(1, width // 320)
+            for i in range(s_cols): self.cards_container.columnconfigure(i, weight=1)
+            
+            stat_items = [
+                ("Total Commands", stats['total'], "#3498db"),
+                ("Categories", stats['categories'], "#e67e22"),
+                ("Active AI", ", ".join(active_ais) if active_ais else "None", "#2ecc71")
+            ]
+            
+            for i, (title, val, color) in enumerate(stat_items):
+                self.create_stat_card(self.cards_container, title, val, color, i // s_cols, i % s_cols)
+
+            # --- Refresh Categories Grid ---
+            for widget in self.cat_grid_container.winfo_children(): widget.grid_forget()
+            
+            c_cols = max(1, width // 220)
+            for i in range(c_cols): self.cat_grid_container.columnconfigure(i, weight=1)
+            
+            for i, (cid, name, pid) in enumerate(self.db.get_categories()):
+                self.create_category_card(self.cat_grid_container, cid, name, i // c_cols, i % c_cols)
+
+        self.main_area.bind("<Configure>", refresh_grids)
+
+    def create_category_card(self, parent, cid, name, row, col):
+        card = tk.Button(parent, text=f"📁 {name}", font=("Segoe UI", 10, "bold"), 
+                        bg="white", fg="#2c3e50", relief="flat", padx=15, pady=15,
+                        highlightbackground="#dcdde1", highlightthickness=1,
+                        command=lambda: self.show_commands(category_id=cid, category_name=name))
+        card.grid(row=row, column=col, padx=5, pady=5, sticky="nsew")
+        card.bind("<Enter>", lambda e: card.config(bg="#f8f9fa", fg="#1abc9c"))
+        card.bind("<Leave>", lambda e: card.config(bg="white", fg="#2c3e50"))
+
+    def create_stat_card(self, parent, title, val, color, row, col):
         frame = tk.Frame(parent, bg="white", padx=20, pady=20, highlightbackground="#dcdde1", highlightthickness=1)
-        frame.grid(row=0, column=col, padx=10, sticky="nsew")
+        frame.grid(row=row, column=col, padx=10, pady=10, sticky="nsew")
         
         tk.Label(frame, text=title, font=("Segoe UI", 10, "bold"), bg="white", fg="#7f8c8d").pack(anchor="w")
         
-        # Use smaller font and wrapping for Active AI if list is long
         is_list = "," in str(val) or len(str(val)) > 15
         val_font = ("Segoe UI", 12, "bold") if is_list else ("Segoe UI", 24, "bold")
         
@@ -621,26 +687,9 @@ class CommandVaultApp:
 
         commands = self.db.get_commands(category_id, search_term)
         
-        # Scrollable area
-        container = ttk.Frame(self.main_area)
-        container.pack(fill=tk.BOTH, expand=True)
-        
-        canvas = tk.Canvas(container, bg="#f5f7f9", highlightthickness=0)
-        scrollbar = ttk.Scrollbar(container, orient="vertical", command=canvas.yview)
-        scroll_frame = ttk.Frame(canvas)
-        
-        scroll_frame.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
-        canvas.create_window((0, 0), window=scroll_frame, anchor="nw")
-        canvas.configure(yscrollcommand=scrollbar.set)
-        
-        canvas.pack(side="left", fill="both", expand=True)
-        scrollbar.pack(side="right", fill="y")
-        
-        # Enable Mouse Wheel for Command List
-        self._bind_mousewheel(canvas)
-        
+        # Command List (Now using the main_area scrollable canvas)
         for cmd in commands:
-            self.create_command_item(scroll_frame, cmd)
+            self.create_command_item(self.main_area, cmd)
 
     def rename_category(self, cid, old_name):
         new_name = simpledialog.askstring("Rename Category", f"Enter new name for '{old_name}':", initialvalue=old_name)
