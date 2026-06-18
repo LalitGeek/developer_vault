@@ -334,6 +334,7 @@ class CommandVaultApp:
         self.db = CommandVaultDB()
         self.chat_history = [] # For human interaction/history
         self.export_cat_var = tk.StringVar(value="All Categories")
+        self.last_grid_width = 0
         self.setup_styles()
         self.create_layout()
         self.load_categories()
@@ -562,6 +563,7 @@ class CommandVaultApp:
 
     def show_dashboard(self):
         self.clear_main()
+        self.last_grid_width = 0
         stats = self.db.get_stats()
         active_ais = self.db.get_active_providers()
         
@@ -597,9 +599,10 @@ class CommandVaultApp:
             
             # --- Refresh Stats Grid ---
             width = self.cards_container.winfo_width()
-            if width < 100: return
+            if width < 100 or width == self.last_grid_width: return
+            self.last_grid_width = width
             
-            for widget in self.cards_container.winfo_children(): widget.grid_forget()
+            for widget in self.cards_container.winfo_children(): widget.destroy()
             
             s_cols = max(1, width // 320)
             for i in range(s_cols): self.cards_container.columnconfigure(i, weight=1)
@@ -614,7 +617,7 @@ class CommandVaultApp:
                 self.create_stat_card(self.cards_container, title, val, color, i // s_cols, i % s_cols)
 
             # --- Refresh Categories Grid ---
-            for widget in self.cat_grid_container.winfo_children(): widget.grid_forget()
+            for widget in self.cat_grid_container.winfo_children(): widget.destroy()
             
             c_cols = max(1, width // 220)
             for i in range(c_cols): self.cat_grid_container.columnconfigure(i, weight=1)
@@ -647,6 +650,7 @@ class CommandVaultApp:
         lbl.pack(anchor="w", pady=(5, 0), fill=tk.X)
 
     def on_category_select(self, event):
+        if hasattr(self, 'dragged_item'): return
         selection = self.cat_tree.selection()
         if not selection: return
         item_id = selection[0]
